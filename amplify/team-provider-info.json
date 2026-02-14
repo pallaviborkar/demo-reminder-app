@@ -10,6 +10,14 @@
       "StackName": "amplify-demoreminderapp-dev-752cf",
       "StackId": "arn:aws:cloudformation:ap-south-1:809226698651:stack/amplify-demoreminderapp-dev-752cf/35150210-0957-11f1-9a4d-02c42a23c1b5",
       "AmplifyAppId": "d1t6lnxb4d3mpw"
+    },
+    "categories": {
+      "function": {
+        "amplifyreminderappPostConfirmation": {}
+      },
+      "auth": {
+        "reminderappuserpool": {}
+      }
     }
   }
 }

@@ -11,5 +11,40 @@
       "StackId": "arn:aws:cloudformation:ap-south-1:809226698651:stack/amplify-demoreminderapp-dev-752cf/35150210-0957-11f1-9a4d-02c42a23c1b5",
       "AmplifyAppId": "d1t6lnxb4d3mpw"
     }
+  },
+  "function": {
+    "amplifyreminderappPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "auth": {
+    "reminderappuserpool": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      }
+    }
   }
 }
