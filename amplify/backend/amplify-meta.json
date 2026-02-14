@@ -46,5 +46,37 @@
         ]
       }
     }
+  },
+  "api": {
+    "demoreminderapp": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "5d6lmxrpmfdz3dgtqn72gi5wle",
+        "GraphQLAPIEndpointOutput": "https://opjhnctkg5erlkfndrrton5nwa.appsync-api.ap-south-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-kz3j2fnx5fg5rn6yo5lbr5ltfm"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apidemoreminderapp"
+      },
+      "lastPushTimeStamp": "2026-02-14T05:13:51.580Z",
+      "lastPushDirHash": "gEzquE+siDh0Au/FdBeeZe8SFy8="
+    }
   }
 }
