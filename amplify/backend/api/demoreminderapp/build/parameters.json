@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "demoreminderapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-demoreminderapp-dev-752cf-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/1a54f2bcf3ef6935cc94df991e75e1199df02310"
+}
