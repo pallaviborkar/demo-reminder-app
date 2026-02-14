@@ -1,0 +1,15 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-demoreminderapp-dev-752cf-authRole",
+      "UnauthRoleArn": "arn:aws:iam::809226698651:role/amplify-demoreminderapp-dev-752cf-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::809226698651:role/amplify-demoreminderapp-dev-752cf-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+      "UnauthRoleName": "amplify-demoreminderapp-dev-752cf-unauthRole",
+      "StackName": "amplify-demoreminderapp-dev-752cf",
+      "StackId": "arn:aws:cloudformation:ap-south-1:809226698651:stack/amplify-demoreminderapp-dev-752cf/35150210-0957-11f1-9a4d-02c42a23c1b5",
+      "AmplifyAppId": "d1t6lnxb4d3mpw"
+    }
+  }
+}
