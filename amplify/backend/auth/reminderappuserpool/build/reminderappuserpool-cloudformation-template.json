@@ -5,6 +5,14 @@
     "env": {
       "Type": "String"
     },
+    "functionreminderappuserpoolPostConfirmationArn": {
+      "Type": "String",
+      "Default": "functionreminderappuserpoolPostConfirmationArn"
+    },
+    "functionreminderappuserpoolPostConfirmationName": {
+      "Type": "String",
+      "Default": "functionreminderappuserpoolPostConfirmationName"
+    },
     "resourceNameTruncated": {
       "Type": "String"
     },
@@ -114,6 +122,18 @@
       "Type": "String"
     },
     "dependsOn": {
+      "Type": "CommaDelimitedList"
+    },
+    "parentStack": {
+      "Type": "String"
+    },
+    "permissions": {
+      "Type": "CommaDelimitedList"
+    },
+    "authProviders": {
+      "Type": "CommaDelimitedList"
+    },
+    "authTriggerConnections": {
       "Type": "CommaDelimitedList"
     }
   },

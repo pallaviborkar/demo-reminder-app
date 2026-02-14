@@ -25,7 +25,17 @@
   "auth": {
     "reminderappuserpool": {
       "customAuth": false,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "reminderappuserpoolPostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
       "frontendAuthConfig": {
         "mfaConfiguration": "OFF",
         "mfaTypes": [
@@ -51,7 +61,7 @@
     }
   },
   "function": {
-    "amplifyreminderappPostConfirmation": {
+    "reminderappuserpoolPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"

@@ -13,7 +13,7 @@
     },
     "categories": {
       "function": {
-        "amplifyreminderappPostConfirmation": {}
+        "reminderappuserpoolPostConfirmation": {}
       },
       "auth": {
         "reminderappuserpool": {}

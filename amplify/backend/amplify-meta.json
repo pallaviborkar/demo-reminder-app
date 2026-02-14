@@ -13,7 +13,7 @@
     }
   },
   "function": {
-    "amplifyreminderappPostConfirmation": {
+    "reminderappuserpoolPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -23,7 +23,17 @@
     "reminderappuserpool": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "reminderappuserpoolPostConfirmation",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
       "customAuth": false,
       "frontendAuthConfig": {
         "socialProviders": [],
@@ -44,7 +54,8 @@
         "verificationMechanisms": [
           "EMAIL"
         ]
-      }
+      },
+      "lastPushTimeStamp": "2026-02-14T17:19:30.522Z"
     }
   },
   "api": {

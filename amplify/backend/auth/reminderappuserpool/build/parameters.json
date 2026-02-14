@@ -38,7 +38,7 @@
   ],
   "userPoolGroups": false,
   "adminQueries": false,
-  "triggers": "{}",
+  "triggers": "{\"PostConfirmation\":[\"custom\"]}",
   "hostedUI": false,
   "userPoolGroupList": [],
   "serviceName": "Cognito",
@@ -57,5 +57,23 @@
     ]
   },
   "breakCircularDependency": true,
-  "dependsOn": []
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "reminderappuserpoolPostConfirmation",
+      "triggerProvider": "Cognito",
+      "attributes": [
+        "Arn",
+        "Name"
+      ]
+    }
+  ],
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": [],
+  "authProviders": [],
+  "authTriggerConnections": [
+    "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"reminderappuserpoolPostConfirmation\"}"
+  ]
 }
