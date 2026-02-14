@@ -13,7 +13,9 @@
     },
     "categories": {
       "function": {
-        "reminderappuserpoolPostConfirmation": {}
+        "reminderappuserpoolPostConfirmation": {},
+        "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {},
+        "sendReminderEventfromStepFuntion": {}
       },
       "auth": {
         "reminderappuserpool": {}
