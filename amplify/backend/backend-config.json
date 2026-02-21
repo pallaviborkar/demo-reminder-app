@@ -62,7 +62,15 @@
   },
   "custom": {
     "ReminderStateMachine": {
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "customCloudformation"
     }

@@ -1,3 +1,9 @@
 {
-  "resourceName": "RemindersStatemachine"
+  "resourceName": "RemindersStatemachine",
+  "functionsendReminderEventfromStepFuntionArn": {
+    "Fn::GetAtt": [
+      "functionsendReminderEventfromStepFuntion",
+      "Arn"
+    ]
+  }
 }
