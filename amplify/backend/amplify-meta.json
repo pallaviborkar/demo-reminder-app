@@ -109,5 +109,13 @@
       "lastPushTimeStamp": "2026-02-14T05:13:51.580Z",
       "lastPushDirHash": "gEzquE+siDh0Au/FdBeeZe8SFy8="
     }
+  },
+  "custom": {
+    "ReminderStateMachine": {
+      "service": "customCloudformation",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "lastPushTimeStamp": "2026-02-21T15:07:11.905Z"
+    }
   }
 }

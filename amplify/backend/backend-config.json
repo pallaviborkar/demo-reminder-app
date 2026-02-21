@@ -60,6 +60,13 @@
       "service": "Cognito"
     }
   },
+  "custom": {
+    "ReminderStateMachine": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "customCloudformation"
+    }
+  },
   "function": {
     "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {
       "build": true,
