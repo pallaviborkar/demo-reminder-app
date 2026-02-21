@@ -14,6 +14,9 @@
         "unauthRoleName": {
             "Type": "String"
         },
+        "AuthCognitoUserPoolId": {
+            "Type": "String"
+        },
         "DynamoDBModelTableReadIOPS": {
             "Type": "Number",
             "Default": 5,
@@ -69,7 +72,7 @@
                         "AuthenticationType": "AWS_IAM"
                     }
                 ],
-                "AuthenticationType": "API_KEY",
+                "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
                 "Name": {
                     "Fn::Join": [
                         "",
@@ -83,6 +86,15 @@
                             }
                         ]
                     ]
+                },
+                "UserPoolConfig": {
+                    "AwsRegion": {
+                        "Ref": "AWS::Region"
+                    },
+                    "DefaultAction": "ALLOW",
+                    "UserPoolId": {
+                        "Ref": "AuthCognitoUserPoolId"
+                    }
                 }
             }
         },
@@ -113,19 +125,6 @@
                 }
             }
         },
-        "GraphQLAPIDefaultApiKey215A6DD7": {
-            "Type": "AWS::AppSync::ApiKey",
-            "Properties": {
-                "ApiId": {
-                    "Fn::GetAtt": [
-                        "GraphQLAPI",
-                        "ApiId"
-                    ]
-                },
-                "Description": "api key description",
-                "Expires": 1773676550
-            }
-        },
         "GraphQLAPINONEDS95A13CF0": {
             "Type": "AWS::AppSync::DataSource",
             "Properties": {
@@ -138,175 +137,6 @@
                 "Description": "None Data Source for Pipeline functions",
                 "Name": "NONE_DS",
                 "Type": "NONE"
-            }
-        },
-        "DataStore": {
-            "Type": "AWS::DynamoDB::Table",
-            "Properties": {
-                "AttributeDefinitions": [
-                    {
-                        "AttributeName": "ds_pk",
-                        "AttributeType": "S"
-                    },
-                    {
-                        "AttributeName": "ds_sk",
-                        "AttributeType": "S"
-                    }
-                ],
-                "BillingMode": "PAY_PER_REQUEST",
-                "KeySchema": [
-                    {
-                        "AttributeName": "ds_pk",
-                        "KeyType": "HASH"
-                    },
-                    {
-                        "AttributeName": "ds_sk",
-                        "KeyType": "RANGE"
-                    }
-                ],
-                "StreamSpecification": {
-                    "StreamViewType": "NEW_AND_OLD_IMAGES"
-                },
-                "TableName": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            "AmplifyDataStore-",
-                            {
-                                "Fn::GetAtt": [
-                                    "GraphQLAPI",
-                                    "ApiId"
-                                ]
-                            },
-                            "-",
-                            {
-                                "Ref": "env"
-                            }
-                        ]
-                    ]
-                },
-                "TimeToLiveSpecification": {
-                    "AttributeName": "_ttl",
-                    "Enabled": true
-                }
-            },
-            "UpdateReplacePolicy": "Delete",
-            "DeletionPolicy": "Delete"
-        },
-        "AmplifyDataStoreIAMRole8DE05A49": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "AssumeRolePolicyDocument": {
-                    "Statement": [
-                        {
-                            "Action": "sts:AssumeRole",
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Service": "appsync.amazonaws.com"
-                            }
-                        }
-                    ],
-                    "Version": "2012-10-17"
-                },
-                "RoleName": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            "AmplifyDataStoreIAMRb752cd-",
-                            {
-                                "Fn::GetAtt": [
-                                    "GraphQLAPI",
-                                    "ApiId"
-                                ]
-                            },
-                            "-",
-                            {
-                                "Ref": "env"
-                            }
-                        ]
-                    ]
-                }
-            }
-        },
-        "DynamoDBAccess71ABE5AE": {
-            "Type": "AWS::IAM::Policy",
-            "Properties": {
-                "PolicyDocument": {
-                    "Statement": [
-                        {
-                            "Action": [
-                                "dynamodb:BatchGetItem",
-                                "dynamodb:BatchWriteItem",
-                                "dynamodb:PutItem",
-                                "dynamodb:DeleteItem",
-                                "dynamodb:GetItem",
-                                "dynamodb:Scan",
-                                "dynamodb:Query",
-                                "dynamodb:UpdateItem"
-                            ],
-                            "Effect": "Allow",
-                            "Resource": [
-                                {
-                                    "Fn::Sub": [
-                                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
-                                        {
-                                            "tablename": {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "AmplifyDataStore-",
-                                                        {
-                                                            "Fn::GetAtt": [
-                                                                "GraphQLAPI",
-                                                                "ApiId"
-                                                            ]
-                                                        },
-                                                        "-",
-                                                        {
-                                                            "Ref": "env"
-                                                        }
-                                                    ]
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Fn::Sub": [
-                                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
-                                        {
-                                            "tablename": {
-                                                "Fn::Join": [
-                                                    "",
-                                                    [
-                                                        "AmplifyDataStore-",
-                                                        {
-                                                            "Fn::GetAtt": [
-                                                                "GraphQLAPI",
-                                                                "ApiId"
-                                                            ]
-                                                        },
-                                                        "-",
-                                                        {
-                                                            "Ref": "env"
-                                                        }
-                                                    ]
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ],
-                    "Version": "2012-10-17"
-                },
-                "PolicyName": "DynamoDBAccess71ABE5AE",
-                "Roles": [
-                    {
-                        "Ref": "AmplifyDataStoreIAMRole8DE05A49"
-                    }
-                ]
             }
         },
         "Reminder": {
@@ -433,28 +263,6 @@
         }
     },
     "Outputs": {
-        "GraphQLAPIKeyOutput": {
-            "Description": "Your GraphQL API ID.",
-            "Value": {
-                "Fn::GetAtt": [
-                    "GraphQLAPIDefaultApiKey215A6DD7",
-                    "ApiKey"
-                ]
-            },
-            "Export": {
-                "Name": {
-                    "Fn::Join": [
-                        ":",
-                        [
-                            {
-                                "Ref": "AWS::StackName"
-                            },
-                            "GraphQLApiKey"
-                        ]
-                    ]
-                }
-            }
-        },
         "GraphQLAPIIdOutput": {
             "Description": "Your GraphQL API ID.",
             "Value": {
