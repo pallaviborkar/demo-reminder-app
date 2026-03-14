@@ -15,9 +15,19 @@
         },
         "s3Key": {
             "Type": "String"
+        },
+        "cognitoUserPoolId": {
+            "Type": "String",
+            "Default": ""
+        },
+        "sesFromEmail": {
+            "Type": "String",
+            "Default": ""
+        },
+        "timeZone": {
+            "Type": "String",
+            "Default": ""
         }
-        
-    
     },
     "Conditions": {
         "ShouldNotCreateEnvResources": {
@@ -66,7 +76,13 @@
                 ]
             },
             "Environment": {
-                "Variables" : {"ENV":{"Ref":"env"},"REGION":{"Ref":"AWS::Region"}}
+                "Variables" : {
+                    "ENV":{"Ref":"env"},
+                    "REGION":{"Ref":"AWS::Region"},
+                    "COGNITO_USER_POOL_ID": { "Ref": "cognitoUserPoolId" },
+                    "SES_FROM_EMAIL": { "Ref": "sesFromEmail" },
+                    "TIMEZONE": { "Ref": "timeZone" }
+                    }
             },
             "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
             "Runtime": "nodejs22.x",
@@ -129,6 +145,26 @@
                             "logs:CreateLogStream",
                             "logs:PutLogEvents"],
                             "Resource": { "Fn::Sub": [ "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*", { "region": {"Ref": "AWS::Region"}, "account": {"Ref": "AWS::AccountId"}, "lambda": {"Ref": "LambdaFunction"}} ]}
+                        },
+                        {
+                            "Sid": "CognitoReadUser",
+                            "Effect": "Allow",
+                            "Action": [
+                                "cognito-idp:AdminGetUser",
+                                "cognito-idp:ListUsers"
+                            ],
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${cognitoUserPoolId}"
+                            }
+                        },
+                        {
+                            "Sid": "SendEmailSES",
+                            "Effect": "Allow",
+                            "Action": [
+                                "ses:SendEmail",
+                                "ses:SendRawEmail"
+                            ],
+                            "Resource": "*"
                         }
                     ]
                 }

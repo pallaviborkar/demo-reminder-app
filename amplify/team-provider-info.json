@@ -15,7 +15,11 @@
       "function": {
         "reminderappuserpoolPostConfirmation": {},
         "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {},
-        "sendReminderEventfromStepFuntion": {}
+        "sendReminderEventfromStepFuntion": {
+          "cognitoUserPoolId": "ap-south-1_ihgThVSjN",
+          "sesFromEmail": "borkar.pallavi.v@gmail.com",
+          "timeZone": "Asia/Kolkata"
+        }
       },
       "auth": {
         "reminderappuserpool": {}
