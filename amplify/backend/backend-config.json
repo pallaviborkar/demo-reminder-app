@@ -108,5 +108,79 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_reminderappuserpoolPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reminderappuserpoolPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_reminderappuserpoolPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "reminderappuserpoolPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendReminderEventfromStepFuntion_cognitoUserPoolId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendReminderEventfromStepFuntion_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendReminderEventfromStepFuntion_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendReminderEventfromStepFuntion_sesFromEmail": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    },
+    "AMPLIFY_function_sendReminderEventfromStepFuntion_timeZone": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    }
   }
 }

@@ -5,7 +5,6 @@
  **************************************************************************/
 
 import * as React from "react";
-import { Reminder } from "../models";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -31,7 +30,7 @@ export declare type ReminderOverridesProps = {
     "AWS Amplify Studio is a visual development environment for building full-stack web"?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type ReminderProps = React.PropsWithChildren<Partial<FlexProps> & {
-    reminder?: Reminder;
+    reminder?: any;
 } & {
     overrides?: ReminderOverridesProps | undefined | null;
 }>;

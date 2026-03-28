@@ -2,6 +2,12 @@
     "AppSyncApiName": "demoreminderapp",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authreminderappuserpool",
+            "Outputs.UserPoolId"
+        ]
+    },
     "authRoleName": {
         "Ref": "AuthRoleName"
     },
@@ -9,5 +15,5 @@
         "Ref": "UnauthRoleName"
     },
     "S3DeploymentBucket": "amplify-demoreminderapp-dev-752cf-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/1a54f2bcf3ef6935cc94df991e75e1199df02310"
+    "S3DeploymentRootKey": "amplify-appsync-files/37ad1c7ed112cb501fb7ead94688a33148b4177f"
 }

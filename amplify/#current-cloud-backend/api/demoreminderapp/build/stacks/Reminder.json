@@ -105,6 +105,14 @@
           {
             "AttributeName": "id",
             "AttributeType": "S"
+          },
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "remindAt",
+            "AttributeType": "S"
           }
         ],
         "BillingMode": {
@@ -116,6 +124,40 @@
             }
           ]
         },
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "byUser",
+            "KeySchema": [
+              {
+                "AttributeName": "userId",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "remindAt",
+                "KeyType": "RANGE"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            },
+            "ProvisionedThroughput": {
+              "Fn::If": [
+                "ShouldUsePayPerRequestBilling",
+                {
+                  "Ref": "AWS::NoValue"
+                },
+                {
+                  "ReadCapacityUnits": {
+                    "Ref": "DynamoDBModelTableReadIOPS"
+                  },
+                  "WriteCapacityUnits": {
+                    "Ref": "DynamoDBModelTableWriteIOPS"
+                  }
+                }
+              ]
+            }
+          }
+        ],
         "KeySchema": [
           {
             "AttributeName": "id",
@@ -314,7 +356,18 @@
                   ]
                 },
                 {
-                  "Ref": "AWS::NoValue"
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ReminderTable",
+                          "Arn"
+                        ]
+                      },
+                      "/index/*"
+                    ]
+                  ]
                 }
               ]
             }
@@ -355,6 +408,36 @@
       "DependsOn": [
         "ReminderIAMRole657D5477"
       ]
+    },
+    "QuerygetReminderpreAuth0FunctionQuerygetReminderpreAuth0FunctionAppSyncFunction295F3F31": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerygetReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.getReminder.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
     },
     "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01": {
       "Type": "AWS::AppSync::FunctionConfiguration",
@@ -479,6 +562,12 @@
           "Functions": [
             {
               "Fn::GetAtt": [
+                "QuerygetReminderpreAuth0FunctionQuerygetReminderpreAuth0FunctionAppSyncFunction295F3F31",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
                 "FunctionId"
               ]
@@ -525,12 +614,42 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Query"
+      }
+    },
+    "QuerylistReminderspreAuth0FunctionQuerylistReminderspreAuth0FunctionAppSyncFunctionD69EF64B": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerylistReminderspreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.listReminders.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "QueryListRemindersDataResolverFnQueryListRemindersDataResolverFnAppSyncFunction1D53197F": {
@@ -596,6 +715,12 @@
           "Functions": [
             {
               "Fn::GetAtt": [
+                "QuerylistReminderspreAuth0FunctionQuerylistReminderspreAuth0FunctionAppSyncFunctionD69EF64B",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
                 "FunctionId"
               ]
@@ -642,7 +767,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -674,6 +799,36 @@
                 "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
               },
               "/resolvers/Mutation.createReminder.init.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
+    "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "MutationcreateReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Mutation.createReminder.preAuth.1.req.vtl"
             ]
           ]
         },
@@ -779,6 +934,12 @@
             },
             {
               "Fn::GetAtt": [
+                "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "MutationcreateReminderauth0FunctionMutationcreateReminderauth0FunctionAppSyncFunction88F1C065",
                 "FunctionId"
               ]
@@ -825,7 +986,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -983,6 +1144,12 @@
             },
             {
               "Fn::GetAtt": [
+                "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "MutationupdateReminderauth0FunctionMutationupdateReminderauth0FunctionAppSyncFunctionC56A7CD3",
                 "FunctionId"
               ]
@@ -1029,12 +1196,42 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Mutation"
+      }
+    },
+    "MutationdeleteReminderpreAuth0FunctionMutationdeleteReminderpreAuth0FunctionAppSyncFunctionD183DA2A": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "MutationdeleteReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Mutation.deleteReminder.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "MutationdeleteReminderauth0FunctionMutationdeleteReminderauth0FunctionAppSyncFunction51720DD3": {
@@ -1151,6 +1348,12 @@
           "Functions": [
             {
               "Fn::GetAtt": [
+                "MutationdeleteReminderpreAuth0FunctionMutationdeleteReminderpreAuth0FunctionAppSyncFunctionD183DA2A",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "MutationdeleteReminderauth0FunctionMutationdeleteReminderauth0FunctionAppSyncFunction51720DD3",
                 "FunctionId"
               ]
@@ -1197,7 +1400,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1334,7 +1537,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1396,7 +1599,7 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
@@ -1458,12 +1661,159 @@
               {
                 "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
               },
-              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
             ]
           ]
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Subscription"
+      }
+    },
+    "QueryremindersByUserIdAndRemindAtauth0FunctionQueryremindersByUserIdAndRemindAtauth0FunctionAppSyncFunction6C983AFE": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QueryremindersByUserIdAndRemindAtauth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndRemindAt.auth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
+    "QueryRemindersByUserIdAndRemindAtDataResolverFnQueryRemindersByUserIdAndRemindAtDataResolverFnAppSyncFunction2E282CBA": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Fn::GetAtt": [
+            "ReminderDataSource",
+            "Name"
+          ]
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QueryRemindersByUserIdAndRemindAtDataResolverFn",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndRemindAt.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndRemindAt.res.vtl"
+            ]
+          ]
+        }
+      },
+      "DependsOn": [
+        "ReminderDataSource"
+      ]
+    },
+    "QueryremindersByUserIdAndRemindAtResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "FieldName": "remindersByUserIdAndRemindAt",
+        "Kind": "PIPELINE",
+        "PipelineConfig": {
+          "Functions": [
+            {
+              "Fn::GetAtt": [
+                "QueryremindersByUserIdAndRemindAtauth0FunctionQueryremindersByUserIdAndRemindAtauth0FunctionAppSyncFunction6C983AFE",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "QuerygetReminderpostAuth0FunctionQuerygetReminderpostAuth0FunctionAppSyncFunctionE8F1F84D",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "QueryRemindersByUserIdAndRemindAtDataResolverFnQueryRemindersByUserIdAndRemindAtDataResolverFnAppSyncFunction2E282CBA",
+                "FunctionId"
+              ]
+            }
+          ]
+        },
+        "RequestMappingTemplate": {
+          "Fn::Join": [
+            "",
+            [
+              "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"remindersByUserIdAndRemindAt\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+              {
+                "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+              {
+                "Ref": "ReminderTable"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_BK7qWJ7aq_Full-access/CognitoIdentityCredentials\",\"ap-south-1_BK7qWJ7aq_Manage-only/CognitoIdentityCredentials\",\"reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev\"]))\n$util.toJson({})"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+        "TypeName": "Query"
       }
     }
   },

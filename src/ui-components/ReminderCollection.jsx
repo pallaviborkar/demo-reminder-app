@@ -15,7 +15,7 @@ export default function ReminderCollection(props) {
     <Collection
       type="grid"
       searchPlaceholder="Search..."
-      templateColumns="1fr 1fr 1fr 1fr"
+      templateColumns="1fr 1fr"
       autoFlow="row"
       alignItems="stretch"
       justifyContent="stretch"
@@ -26,6 +26,7 @@ export default function ReminderCollection(props) {
       {(item, index) => (
         <Reminder
           key={item.id}
+          reminder={item}
           {...(overrideItems && overrideItems({ item, index }))}
         ></Reminder>
       )}

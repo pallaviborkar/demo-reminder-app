@@ -9,120 +9,211 @@
       "UnauthRoleName": "amplify-demoreminderapp-dev-752cf-unauthRole",
       "StackName": "amplify-demoreminderapp-dev-752cf",
       "StackId": "arn:aws:cloudformation:ap-south-1:809226698651:stack/amplify-demoreminderapp-dev-752cf/35150210-0957-11f1-9a4d-02c42a23c1b5",
-      "AmplifyAppId": "d1t6lnxb4d3mpw"
-    }
-  },
-  "function": {
-    "reminderappuserpoolPostConfirmation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "demoreminderapp",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
-    "sendReminderEventfromStepFuntion": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "auth": {
-    "reminderappuserpool": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "reminderappuserpoolPostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ],
-      "customAuth": false,
-      "frontendAuthConfig": {
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyMinLength": 8,
-          "passwordPolicyCharacters": []
-        },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
-      "lastPushTimeStamp": "2026-02-14T17:19:30.522Z"
+      "AmplifyAppId": "d1t6lnxb4d3mpw",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     }
   },
   "api": {
     "demoreminderapp": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "reminderappuserpool",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "reminderappuserpool"
         }
       ],
       "output": {
         "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
               "userPoolId": "authreminderappuserpool"
             }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ]
+          }
         },
         "GraphQLAPIIdOutput": "5d6lmxrpmfdz3dgtqn72gi5wle",
-        "GraphQLAPIEndpointOutput": "https://opjhnctkg5erlkfndrrton5nwa.appsync-api.ap-south-1.amazonaws.com/graphql",
-        "GraphQLAPIKeyOutput": "da2-kz3j2fnx5fg5rn6yo5lbr5ltfm"
+        "GraphQLAPIEndpointOutput": "https://opjhnctkg5erlkfndrrton5nwa.appsync-api.ap-south-1.amazonaws.com/graphql"
       },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2026-03-28T04:29:03.504Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apidemoreminderapp"
       },
-      "lastPushTimeStamp": "2026-02-21T16:56:14.821Z",
-      "lastPushDirHash": "gEzquE+siDh0Au/FdBeeZe8SFy8="
+      "lastPushDirHash": "ZoIEOmIZaahMmZKJJWZPMthyOzU="
+    }
+  },
+  "auth": {
+    "reminderappuserpool": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "reminderappuserpoolPostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "ap-south-1_ihgThVSjN",
+        "AppClientIDWeb": "1v2nvnef269g4kfe1s67l59vmr",
+        "AppClientID": "6omvis9a5856007b1ss0anbhmf",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-south-1:809226698651:userpool/ap-south-1_ihgThVSjN",
+        "UserPoolName": "reminderappuserpool"
+      },
+      "lastPushTimeStamp": "2026-03-28T04:29:03.510Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/auth/reminderappuserpool-cloudformation-template.json",
+        "logicalId": "authreminderappuserpool"
+      },
+      "lastPushDirHash": "yLVD3XhgY+J10D5Zehxi+qDMYJo="
     }
   },
   "custom": {
     "ReminderStateMachine": {
-      "service": "customCloudformation",
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ],
       "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "lastPushTimeStamp": "2026-02-21T15:07:11.905Z"
+      "service": "customCloudformation",
+      "output": {
+        "StateMachineArn": "arn:aws:states:ap-south-1:809226698651:stateMachine:RemindersStatemachine-dev"
+      },
+      "lastPushTimeStamp": "2026-03-28T04:29:03.512Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/custom/ReminderStateMachine-cloudformation-template.json",
+        "logicalId": "customReminderStateMachine"
+      },
+      "lastPushDirHash": "+ldty2jXG2LALkYOF93U6ohJVAM="
+    }
+  },
+  "function": {
+    "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "demoreminderapp"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::809226698651:role/demoreminderappLambdaRole8fc29ec6-dev",
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:809226698651:function:reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev",
+        "Name": "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-dev",
+        "LambdaExecutionRole": "demoreminderappLambdaRole8fc29ec6-dev"
+      },
+      "lastPushTimeStamp": "2026-03-28T04:29:03.513Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/function/reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-cloudformation-template.json",
+        "logicalId": "functionreminderStreamsTriggerLambdaFun2SendEvent2StepFuntion"
+      },
+      "lastBuildTimeStamp": "2026-03-14T08:48:40.544Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-03-14T08:48:43.337Z",
+      "distZipFilename": "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-4a4d2b3248475245696d-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+        "s3Key": "amplify-builds/reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-4a4d2b3248475245696d-build.zip"
+      },
+      "lastPushDirHash": "r38QPHb1JVJv5VrvTgr9Fgogx9E="
+    },
+    "reminderappuserpoolPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::809226698651:role/reminderappuserpoolPostConfirmation-dev",
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:809226698651:function:reminderappuserpoolPostConfirmation-dev",
+        "Name": "reminderappuserpoolPostConfirmation-dev",
+        "LambdaExecutionRole": "reminderappuserpoolPostConfirmation-dev"
+      },
+      "lastPushTimeStamp": "2026-03-28T04:29:03.517Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/function/reminderappuserpoolPostConfirmation-cloudformation-template.json",
+        "logicalId": "functionreminderappuserpoolPostConfirmation"
+      },
+      "lastBuildTimeStamp": "2026-03-14T08:48:48.896Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-03-14T08:48:51.214Z",
+      "distZipFilename": "reminderappuserpoolPostConfirmation-386d3546643854744856-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+        "s3Key": "amplify-builds/reminderappuserpoolPostConfirmation-386d3546643854744856-build.zip"
+      },
+      "lastPushDirHash": "EFKmWsPjv9lWIkIS4xrNi8pculw="
+    },
+    "sendReminderEventfromStepFuntion": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::809226698651:role/demoreminderappLambdaRole08250f4a-dev",
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:809226698651:function:sendReminderEventfromStepFuntion-dev",
+        "Name": "sendReminderEventfromStepFuntion-dev",
+        "LambdaExecutionRole": "demoreminderappLambdaRole08250f4a-dev"
+      },
+      "lastPushTimeStamp": "2026-03-28T04:29:03.521Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/function/sendReminderEventfromStepFuntion-cloudformation-template.json",
+        "logicalId": "functionsendReminderEventfromStepFuntion"
+      },
+      "lastBuildTimeStamp": "2026-03-14T08:48:58.933Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-03-14T08:49:00.847Z",
+      "distZipFilename": "sendReminderEventfromStepFuntion-2b4f6636415348384378-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+        "s3Key": "amplify-builds/sendReminderEventfromStepFuntion-2b4f6636415348384378-build.zip"
+      },
+      "lastPushDirHash": "8i/nmr2o8VAiKJPM5/ZeB+HUqVU="
     }
   }
 }

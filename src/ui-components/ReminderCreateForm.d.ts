@@ -21,14 +21,14 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type ReminderUpdateFormInputValues = {
+export declare type ReminderCreateFormInputValues = {
     userId?: string;
     title?: string;
     description?: string;
     remindAt?: string;
     stepFnExecutionArn?: string;
 };
-export declare type ReminderUpdateFormValidationValues = {
+export declare type ReminderCreateFormValidationValues = {
     userId?: ValidationFunction<string>;
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
@@ -36,23 +36,22 @@ export declare type ReminderUpdateFormValidationValues = {
     stepFnExecutionArn?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type ReminderUpdateFormOverridesProps = {
-    ReminderUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type ReminderCreateFormOverridesProps = {
+    ReminderCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     userId?: PrimitiveOverrideProps<TextFieldProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     remindAt?: PrimitiveOverrideProps<TextFieldProps>;
     stepFnExecutionArn?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type ReminderUpdateFormProps = React.PropsWithChildren<{
-    overrides?: ReminderUpdateFormOverridesProps | undefined | null;
+export declare type ReminderCreateFormProps = React.PropsWithChildren<{
+    overrides?: ReminderCreateFormOverridesProps | undefined | null;
 } & {
-    id?: string;
-    reminder?: any;
-    onSubmit?: (fields: ReminderUpdateFormInputValues) => ReminderUpdateFormInputValues;
-    onSuccess?: (fields: ReminderUpdateFormInputValues) => void;
-    onError?: (fields: ReminderUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: ReminderUpdateFormInputValues) => ReminderUpdateFormInputValues;
-    onValidate?: ReminderUpdateFormValidationValues;
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: ReminderCreateFormInputValues) => ReminderCreateFormInputValues;
+    onSuccess?: (fields: ReminderCreateFormInputValues) => void;
+    onError?: (fields: ReminderCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: ReminderCreateFormInputValues) => ReminderCreateFormInputValues;
+    onValidate?: ReminderCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function ReminderUpdateForm(props: ReminderUpdateFormProps): React.ReactElement;
+export default function ReminderCreateForm(props: ReminderCreateFormProps): React.ReactElement;

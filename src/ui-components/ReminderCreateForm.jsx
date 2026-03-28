@@ -9,13 +9,11 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getReminder } from "../graphql/queries";
-import { updateReminder } from "../graphql/mutations";
+import { createReminder } from "../graphql/mutations";
 const client = generateClient();
-export default function ReminderUpdateForm(props) {
+export default function ReminderCreateForm(props) {
   const {
-    id: idProp,
-    reminder: reminderModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -42,32 +40,13 @@ export default function ReminderUpdateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = reminderRecord
-      ? { ...initialValues, ...reminderRecord }
-      : initialValues;
-    setUserId(cleanValues.userId);
-    setTitle(cleanValues.title);
-    setDescription(cleanValues.description);
-    setRemindAt(cleanValues.remindAt);
-    setStepFnExecutionArn(cleanValues.stepFnExecutionArn);
+    setUserId(initialValues.userId);
+    setTitle(initialValues.title);
+    setDescription(initialValues.description);
+    setRemindAt(initialValues.remindAt);
+    setStepFnExecutionArn(initialValues.stepFnExecutionArn);
     setErrors({});
   };
-  const [reminderRecord, setReminderRecord] = React.useState(reminderModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await client.graphql({
-              query: getReminder.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getReminder
-        : reminderModelProp;
-      setReminderRecord(record);
-    };
-    queryData();
-  }, [idProp, reminderModelProp]);
-  React.useEffect(resetStateValues, [reminderRecord]);
   const validations = {
     userId: [{ type: "Required" }],
     title: [{ type: "Required" }],
@@ -122,7 +101,7 @@ export default function ReminderUpdateForm(props) {
           title,
           description,
           remindAt,
-          stepFnExecutionArn: stepFnExecutionArn ?? null,
+          stepFnExecutionArn,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -153,16 +132,18 @@ export default function ReminderUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateReminder.replaceAll("__typename", ""),
+            query: createReminder.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: reminderRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -171,7 +152,7 @@ export default function ReminderUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "ReminderUpdateForm")}
+      {...getOverrideProps(overrides, "ReminderCreateForm")}
       {...rest}
     >
       <TextField
@@ -323,14 +304,13 @@ export default function ReminderUpdateForm(props) {
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || reminderModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -340,10 +320,7 @@ export default function ReminderUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || reminderModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

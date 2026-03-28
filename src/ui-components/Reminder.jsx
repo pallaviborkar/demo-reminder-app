@@ -143,7 +143,7 @@ export default function Reminder(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={reminder?.remindat}
+            children={reminder?.remindAt}
             {...getOverrideProps(overrides, "2nd December 2021")}
           ></Text>
           <Flex

@@ -9,16 +9,25 @@
       "UnauthRoleName": "amplify-demoreminderapp-dev-752cf-unauthRole",
       "StackName": "amplify-demoreminderapp-dev-752cf",
       "StackId": "arn:aws:cloudformation:ap-south-1:809226698651:stack/amplify-demoreminderapp-dev-752cf/35150210-0957-11f1-9a4d-02c42a23c1b5",
-      "AmplifyAppId": "d1t6lnxb4d3mpw"
+      "AmplifyAppId": "d1t6lnxb4d3mpw",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-demoreminderapp-dev-752cf-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "function": {
-        "reminderappuserpoolPostConfirmation": {},
-        "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {},
+        "reminderappuserpoolPostConfirmation": {
+          "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+          "s3Key": "amplify-builds/reminderappuserpoolPostConfirmation-386d3546643854744856-build.zip"
+        },
+        "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {
+          "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+          "s3Key": "amplify-builds/reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion-4a4d2b3248475245696d-build.zip"
+        },
         "sendReminderEventfromStepFuntion": {
           "cognitoUserPoolId": "ap-south-1_ihgThVSjN",
           "sesFromEmail": "borkar.pallavi.v@gmail.com",
-          "timeZone": "Asia/Kolkata"
+          "timeZone": "Asia/Kolkata",
+          "deploymentBucketName": "amplify-demoreminderapp-dev-752cf-deployment",
+          "s3Key": "amplify-builds/sendReminderEventfromStepFuntion-2b4f6636415348384378-build.zip"
         }
       },
       "auth": {
